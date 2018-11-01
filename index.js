@@ -72,7 +72,7 @@ const io_client = require('socket.io-client');
 const socket_client = io_client('http://localhost:1337');
 //socket_client.emit('data', 'test');
 //socket_client.emit('data', [1,2,3]);
-socket_client.emit('data', testArray());
+//socket_client.emit('data', testArray());
 
 function testArray() {
   return Array.apply(null, new Array(512)).map(function () { return 255; }, 0);
