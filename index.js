@@ -15,13 +15,19 @@ function sendData(data) {
                });
 }
 
-// Array.apply(null, new Array(512)).map(function () { return 255; }, 0)
+const dmxDataLength = 512;
+
+function validateData(data) {
+  return (data instanceof Array && data.length === dmxDataLength);
+}
 
 socket_server.on('connection', function(socket){
     console.log('Socket received conenction');
     socket.on('data', function(msg){
         console.log('Message received by socket is: ' + msg);
-        // sendData(msg);
+        if (validateData(msg)) {
+            sendData(msg);
+        };
     });
 });
 socket_server.listen(1337);
@@ -30,4 +36,9 @@ socket_server.listen(1337);
 const io_client = require('socket.io-client');
 const socket_client = io_client('http://localhost:1337');
 socket_client.emit('data', 'test');
-socket_client.emit('data', [255, 255]);
+socket_client.emit('data', [1,2,3]);
+socket_client.emit('data', testArray());
+
+function testArray() {
+  return Array.apply(null, new Array(512)).map(function () { return 255; }, 0);
+}
