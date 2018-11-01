@@ -19,7 +19,7 @@
     "websocket"
   ],
   "author": "Dylan Sherry, Aaron Strick",
-  "license": "MIT",
+  "license": "WTFPL",
   "bugs": {
     "url": "https://github.com/dsherry/websocket_to_artnet/issues"
   },
