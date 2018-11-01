@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "artnet": "^1.4.0",
+    "dgram": "^1.0.1",
     "socket.io": "^2.1.1",
     "socket.io-client": "^2.1.1"
   },
