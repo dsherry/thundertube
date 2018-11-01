@@ -1,0 +1,27 @@
+{
+  "name": "websocket_to_artnet",
+  "version": "1.0.0",
+  "description": "Converts information sent over websocket to artnet format",
+  "main": "index.js",
+  "dependencies": {
+    "artnet": "^1.4.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "nil"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/dsherry/websocket_to_artnet.git"
+  },
+  "keywords": [
+    "artnet",
+    "websocket"
+  ],
+  "author": "Dylan Sherry, Aaron Strick",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dsherry/websocket_to_artnet/issues"
+  },
+  "homepage": "https://github.com/dsherry/websocket_to_artnet#readme"
+}
