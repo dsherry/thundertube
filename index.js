@@ -21,7 +21,7 @@ socket_server.on('connection', function(socket){
     console.log('Socket received conenction');
     socket.on('data', function(msg){
         console.log('Message received by socket is: ' + msg);
-        sendData(msg);
+        // sendData(msg);
     });
 });
 socket_server.listen(1337);
