@@ -3,14 +3,10 @@
   "version": "1.0.0",
   "description": "Converts information sent over websocket to artnet format",
   "main": "index.js",
-  "dependencies": {
-    "artnet": "^1.4.0",
-    "dgram": "^1.0.1",
-    "serve": "^10.0.2",
-    "socket.io": "^2.1.1",
-    "socket.io-client": "^2.1.1"
+  "dependencies": {},
+  "devDependencies": {
+    "serve": "^10.0.2"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "nil"
   },
