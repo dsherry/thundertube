@@ -1,4 +1,8 @@
 # ⚡ The ThunderTube ⚡
+
+[![](./thumb.jpg)](https://www.youtube.com/watch?v=gyQX5rhEqEg)
+[(watch it in action)](https://www.youtube.com/watch?v=gyQX5rhEqEg)
+
 ## Description
 An application for live-coding some LEDs in the Recurse Center space.
 
