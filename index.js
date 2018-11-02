@@ -1,5 +1,5 @@
 var options = {
-    host: '10.0.18.252',
+    host: '10.0.18.242',
     port: 6454
 }
 const dgram = require('dgram');
