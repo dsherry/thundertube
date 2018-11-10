@@ -65,17 +65,12 @@ As soon as the raspberry pi boots, it should launch our page. This is accomplish
 @chromium-browser --kiosk file:///home/pi/thundertube/index.html
 ```
 
-## Dependencies
+## Client Dependencies
 
-This relies on some code checked into `/vendor` that comes from [code mirror](https://codemirror.net/) and [THREE.js](https://threejs.org/) including:
-
-  * `codemirror.css` --> Code mirror styling
-  * `codemirror.js`  --> Code mirror main
-  * `javascript-mode.js` --> Code mirror plugin for js highlighting
-  * `liquibyte.css` --> Code mirror theme
-  * `three.js` --> All of the THREE.js
+The client uses [code mirror](https://codemirror.net/) for the editor and [THREE.js](https://threejs.org/) for the realtime rendering. We don't use a build script and instead directly reference the source code in node_modules directory. See the `index.html` for how they're included:
   
 ## Plans
-* Make UI look better
-* Add a save/restore feature, and add a way to view others' saved code
+
+- [ ] Make UI look better
+- [ ] Add a save/restore feature, and add a way to view others' saved code
 

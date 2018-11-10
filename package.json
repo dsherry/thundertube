@@ -3,7 +3,13 @@
   "version": "1.0.0",
   "description": "Interface for controlling the thundertube in the Recurse Center",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "codemirror": "^5.41.0",
+    "codemirror-javascript": "^0.2.0",
+    "i": "^0.3.6",
+    "npm": "^6.4.1",
+    "three": "^0.98.0"
+  },
   "devDependencies": {
     "serve": "^10.0.2"
   },
