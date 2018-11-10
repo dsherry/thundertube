@@ -1,13 +1,14 @@
 {
-  "name": "websocket_to_artnet",
+  "name": "ThunderTube",
   "version": "1.0.0",
-  "description": "Converts information sent over websocket to artnet format",
+  "description": "Interface for controlling the thundertube in the Recurse Center",
   "main": "index.js",
   "dependencies": {},
   "devDependencies": {
     "serve": "^10.0.2"
   },
   "scripts": {
+    "start": "node_modules/bin/serve .",
     "test": "nil"
   },
   "repository": {
