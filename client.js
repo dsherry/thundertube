@@ -183,9 +183,16 @@ saveCodeDropdown.addEventListener("input", function(option){
 });
 
 saveCodeButton.addEventListener("click", function() {
-  saveCode(saveCodeInput.value);
-  saveCodeDropdown.innerHTML = "";
-  loadSavedCode();
+  let name = saveCodeInput.value;
+  if (name.length < 4) {
+    messageDiv.classList.add("error");
+    messageDiv.innerHTML = "Err: give your pattern a good name";
+  } else {
+    saveCode(saveCodeInput.value);
+
+    saveCodeDropdown.innerHTML = "";
+    loadSavedCode();
+  }
 });
 
 editor.on("changes", function(){
