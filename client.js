@@ -11,6 +11,7 @@ var saveCodeDropdown = document.getElementById("save-code-dropdown");
 var saveCodeButton = document.getElementById("save-code-button");
 var saveCodeInput = document.getElementById("save-code-input");
 var editorElement = document.getElementById("editor");
+var messageDiv = document.getElementById("message");
 
 
 // Initializations
@@ -53,7 +54,6 @@ function toRgb([r,g,b]) {
 
 
 function start() {
-    let messageDiv = document.getElementById("message");
     let send = function() {
         try {
             if (codeChanged) {
@@ -76,7 +76,6 @@ function start() {
               buffer[i] = ledArray[i];
             }
 
-          console.log(buffer);
             socket.send( buffer );
 
         } catch(err) {
@@ -191,7 +190,6 @@ saveCodeButton.addEventListener("click", function() {
 
 editor.on("changes", function(){
   let userCode = editor.getValue();
-  let messageDiv = document.getElementById("message");
 
   try {
     eval(userCode);
