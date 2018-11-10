@@ -4,30 +4,73 @@
         <meta charset="UTF-8"/>
         <title>SOCKETS!</title>
         <link href="./vendor/codemirror.css" rel="stylesheet"/>
+        <link href="./vendor/liquibyte.css" rel="stylesheet"/>
         <style>
          * { box-sizing: border-box; }
-         html,body { margin: 0; width: 100%; height: 100%;}
-         body { background-color: black; }
+         html,body { margin: 0; width: 100%; height: 100%; }
+         body {
+             background-color: black;
+             width: 1024px;
+             margin: 0 auto;
+         }
 
-         #mount { margin: 20px 0; }
+         #container {
+             margin: 0 auto;
+         }
+
+         #editor {
+             border: 1px solid #20C20E;
+             margin: 20px 0;
+         }
 
          #message {
-             border: 1px solid white;
-             background-color: white;
+             border: 1px solid #20C20E;
              min-height: 25px;
+             line-height: 25px;
              font-family: monospace;
+             padding-left: 16px;
+             margin: 20px 0;
+         }
+
+         #viz {
+             margin: 20px 0;
+         }
+         #viz canvas {
+             border: 1px solid #20C20E;
          }
 
          .error { color: red; };
 
+         #save-code-dropdown {
+             appearance: none;
+             border: 1px solid #20C20E;
+             background-color: black;
+         }
+
+         #save-code-button, #save-code-input {
+             appearance: none;
+             color: #20C20E;
+             font-family: monospace;
+             border: 1px solid #20C20E;
+             background-color: black;
+         }
+
         </style>
     </head>
     <body>
-        <div id="mount"></div>
-        <div id="message"></div>
-        <div id="viz" style="width: 100%; height: 300px;"></div>
+        <div id="container">
+            <div id="editor"></div>
+            <div id="save-code-form">
+                <select id="save-code-dropdown" name="save-code"></select>
+                <input type="text" id="save-code-input"></select>
+                <button id="save-code-button">Save code</button>
+            </div>
+            <div id="message"></div>
+            <div id="viz" style="width: 100%; height: 400px;"></div>
+        </div>
 
         <script src="./vendor/codemirror.js"></script>
+        <script src="./vendor/javascript-mode.js"></script>
         <script src="./vendor/three.js"></script>
         <script src="./client.js"></script>
     </body>

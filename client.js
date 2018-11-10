@@ -12,9 +12,10 @@ Object.defineProperty(Array.prototype, 'chunk', {
 
 let defaultText = "function draw(previousFrame, tick){\n    var vals = Array(300).fill(200);\n\n    // create a control signal ranging from 0 to 1, based on the tick\n    var speedFactor = (2 * 3.14159) * 0.0001;\n    var controlSignal = (Math.sin(speedFactor * tick) + 1) / 2.0;\n    // scale that signal to range from 0 to 99 (because we have 100 LEDs)\n    controlSignal = Math.floor(controlSignal * 100.0);\n    // set RGB for one pixel to white, based on where the control signal is\n    vals[controlSignal * 3] = 255;\n    vals[controlSignal * 3 + 1] = 255;\n    vals[controlSignal * 3 + 2] = 255;\n    return vals;\n}";
 
-const editor = CodeMirror(document.getElementById("mount"), {
+const editor = CodeMirror(document.getElementById("editor"), {
   value: defaultText,
   mode:  "javascript",
+  theme: "liquibyte",
 });
 
 var ledArray = [];
@@ -70,6 +71,7 @@ function start() {
               buffer[i] = ledArray[i];
             }
 
+          console.log(buffer);
             socket.send( buffer );
 
         } catch(err) {
@@ -92,7 +94,7 @@ function setupScene() {
   renderer = new THREE.WebGLRenderer();
 
   renderer.setSize( width, height );
-  camera.position.z = 300;
+  camera.position.z = 500;
 
   canvas.appendChild( renderer.domElement );
 
@@ -126,10 +128,10 @@ function setupScene() {
 		} );
 
     bulb.add( new THREE.Mesh( bulbGeometry, bulbMat ) );
-    let times = 1.68;
-    bulb.position.set( (-i * times) + (50 * times)
-                       , Math.sin(i*times) * 10
-                       , Math.cos(i*times) * 10 );
+    bulb.position.set( (-i * 2) + (50 * 2)
+                       , Math.sin(i * 16 * 2 * Math.PI / 100 ) * 10
+                       , Math.cos(i * 16 * 2 * Math.PI / 100 ) * 10
+                     );
     bulb.castShadow = true;
 
     scene.add( bulb );
@@ -158,6 +160,38 @@ function animate() {
 	renderer.render( scene, camera );
 }
 
+var saveCodeDropdown = document.getElementById("save-code-dropdown");
+var saveCodeButton = document.getElementById("save-code-button");
+var saveCodeInput = document.getElementById("save-code-input");
+saveCodeDropdown.addEventListener("input", function(option){
+  editor.setValue(option.target.value);
+});
+
+saveCodeButton.addEventListener("click", function() {
+  debugger
+  saveCode(saveCodeInput.value);
+  saveCodeDropdown.innerHTML = "";
+  loadSavedCode();
+});
+
+function loadSavedCode() {
+  let savedCodes = JSON.parse(window.localStorage.getItem("saved-code")) || [];
+  for (let i = 0; i < savedCodes.length; i++) {
+    let option = document.createElement("option");
+    let savedCode = savedCodes[i];
+    option.text = savedCode.name;
+    option.value = savedCode.value;
+    saveCodeDropdown.appendChild(option);
+  }
+}
+
+function saveCode(name) {
+  let oldCodes = JSON.parse(window.localStorage.getItem("saved-code")) || [];
+  let newCodes = JSON.stringify([...oldCodes, {name: name, value: currentCode}]);
+  window.localStorage.setItem("saved-code", newCodes);
+}
+
+loadSavedCode();
 start();
 setupScene();
 animate();
