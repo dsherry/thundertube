@@ -1,22 +1,30 @@
+// Configurables
+
 const websocketAddress = "ws://10.0.18.242";
-const socket = new WebSocket(websocketAddress);
 
-Object.defineProperty(Array.prototype, 'chunk', {
-  value: function(chunkSize) {
-    var R = [];
-    for (var i=0; i<this.length; i+=chunkSize)
-      R.push(this.slice(i,i+chunkSize));
-    return R;
-  }
-});
+const defaultText = "function draw(previousFrame, tick){\n    var vals = Array(300).fill(200);\n\n    // create a control signal ranging from 0 to 1, based on the tick\n    var speedFactor = (2 * 3.14159) * 0.0001;\n    var controlSignal = (Math.sin(speedFactor * tick) + 1) / 2.0;\n    // scale that signal to range from 0 to 99 (because we have 100 LEDs)\n    controlSignal = Math.floor(controlSignal * 100.0);\n    // set RGB for one pixel to white, based on where the control signal is\n    vals[controlSignal * 3] = 255;\n    vals[controlSignal * 3 + 1] = 255;\n    vals[controlSignal * 3 + 2] = 255;\n    return vals;\n}";
 
-let defaultText = "function draw(previousFrame, tick){\n    var vals = Array(300).fill(200);\n\n    // create a control signal ranging from 0 to 1, based on the tick\n    var speedFactor = (2 * 3.14159) * 0.0001;\n    var controlSignal = (Math.sin(speedFactor * tick) + 1) / 2.0;\n    // scale that signal to range from 0 to 99 (because we have 100 LEDs)\n    controlSignal = Math.floor(controlSignal * 100.0);\n    // set RGB for one pixel to white, based on where the control signal is\n    vals[controlSignal * 3] = 255;\n    vals[controlSignal * 3 + 1] = 255;\n    vals[controlSignal * 3 + 2] = 255;\n    return vals;\n}";
 
-const editor = CodeMirror(document.getElementById("editor"), {
+// Dom Elements
+
+var saveCodeDropdown = document.getElementById("save-code-dropdown");
+var saveCodeButton = document.getElementById("save-code-button");
+var saveCodeInput = document.getElementById("save-code-input");
+var editorElement = document.getElementById("editor");
+
+
+// Initializations
+
+const editor = CodeMirror(editorElement, {
   value: defaultText,
   mode:  "javascript",
   theme: "liquibyte",
 });
+
+const socket = new WebSocket(websocketAddress);
+
+
+// Initial State
 
 var ledArray = [];
 var lightObjectArray = [];
@@ -27,25 +35,22 @@ var scene;
 var renderer;
 var camera;
 
-editor.on("changes", function(){
-  let userCode = editor.getValue();
-  let messageDiv = document.getElementById("message");
 
-  try {
-    eval(userCode);
-    currentCode = userCode;
+// Utils
 
-    // reset
-    codeChanged = true;
-    messageDiv.innerHTML = "\n";
-    messageDiv.classList.remove("error");
-
-
-  } catch(err) {
-    messageDiv.innerHTML = err;
-    messageDiv.classList.add("error");
+Object.defineProperty(Array.prototype, 'chunk', {
+  value: function(chunkSize) {
+    var R = [];
+    for (var i=0; i<this.length; i+=chunkSize)
+      R.push(this.slice(i,i+chunkSize));
+    return R;
   }
 });
+
+function toRgb([r,g,b]) {
+  return new THREE.Color(r,g,b);
+};
+
 
 function start() {
     let messageDiv = document.getElementById("message");
@@ -82,7 +87,6 @@ function start() {
     }
     window.requestAnimationFrame(send);
 };
-
 
 function setupScene() {
   let canvas = document.getElementById("viz");
@@ -139,14 +143,9 @@ function setupScene() {
   }
 }
 
-function toRgb([r,g,b]) {
-  return new THREE.Color(r,g,b);
-};
-
 function updateLightObject(lightObject, color) {
   lightObject.color = color;
   lightObject.children[0].material.color = color;
-  // lightObject.children[0].material.emissive = color;
 };
 
 function animate() {
@@ -159,20 +158,6 @@ function animate() {
 
 	renderer.render( scene, camera );
 }
-
-var saveCodeDropdown = document.getElementById("save-code-dropdown");
-var saveCodeButton = document.getElementById("save-code-button");
-var saveCodeInput = document.getElementById("save-code-input");
-saveCodeDropdown.addEventListener("input", function(option){
-  editor.setValue(option.target.value);
-});
-
-saveCodeButton.addEventListener("click", function() {
-  debugger
-  saveCode(saveCodeInput.value);
-  saveCodeDropdown.innerHTML = "";
-  loadSavedCode();
-});
 
 function loadSavedCode() {
   let savedCodes = JSON.parse(window.localStorage.getItem("saved-code")) || [];
@@ -190,6 +175,42 @@ function saveCode(name) {
   let newCodes = JSON.stringify([...oldCodes, {name: name, value: currentCode}]);
   window.localStorage.setItem("saved-code", newCodes);
 }
+
+
+// Event Handling
+
+saveCodeDropdown.addEventListener("input", function(option){
+  editor.setValue(option.target.value);
+});
+
+saveCodeButton.addEventListener("click", function() {
+  saveCode(saveCodeInput.value);
+  saveCodeDropdown.innerHTML = "";
+  loadSavedCode();
+});
+
+editor.on("changes", function(){
+  let userCode = editor.getValue();
+  let messageDiv = document.getElementById("message");
+
+  try {
+    eval(userCode);
+    currentCode = userCode;
+
+    // reset
+    codeChanged = true;
+    messageDiv.innerHTML = "\n";
+    messageDiv.classList.remove("error");
+
+
+  } catch(err) {
+    messageDiv.innerHTML = err;
+    messageDiv.classList.add("error");
+  }
+});
+
+
+// Run it!
 
 loadSavedCode();
 start();
