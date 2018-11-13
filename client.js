@@ -23,6 +23,7 @@ const editor = CodeMirror(editorElement, {
 });
 
 const socket = new WebSocket(websocketAddress);
+socket.binaryType = "arraybuffer";
 
 
 // Initial State
@@ -68,15 +69,15 @@ function start() {
                 .map(function(num){ return Math.floor(num); })
                 .map(function(num){
                     return num <= 0 ? 0 : num >= 255 ? 255 : num;
-                })
+                });
 
-            let buffer = new ArrayBuffer(300);
+            let byteArray = new Uint8Array(300);
 
             for (let i = 0; i < ledArray.length; i++) {
-              buffer[i] = ledArray[i];
+              byteArray[i] = ledArray[i];
             }
 
-            socket.send( buffer );
+            socket.send( byteArray.buffer );
 
         } catch(err) {
             messageDiv.innerHTML = err;
