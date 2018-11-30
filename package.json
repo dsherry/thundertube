@@ -2,19 +2,20 @@
   "name": "ThunderTube",
   "version": "1.0.0",
   "description": "Interface for controlling the thundertube in the Recurse Center",
-  "main": "index.js",
+  "main": "server.js",
   "dependencies": {
+    "body-parser": "^1.18.3",
     "codemirror": "^5.41.0",
     "codemirror-javascript": "^0.2.0",
+    "express": "^4.16.4",
+    "http": "0.0.0",
     "i": "^0.3.6",
+    "mongodb": "^3.1.10",
     "npm": "^6.4.1",
+    "path": "^0.12.7",
     "three": "^0.98.0"
   },
-  "devDependencies": {
-    "serve": "^10.0.2"
-  },
   "scripts": {
-    "start": "node_modules/bin/serve .",
     "test": "nil"
   },
   "repository": {

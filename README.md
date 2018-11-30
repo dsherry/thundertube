@@ -11,7 +11,7 @@ The application has two components: a JS frontend, and [a backend hosted on a Te
 ## Installation
 ### JS frontend
 ```
-npm install serve
+npm install
 npm start
 ```
  Now go to http://localhost:5000
@@ -67,10 +67,8 @@ As soon as the raspberry pi boots, it should launch our page. This is accomplish
 
 ## Client Dependencies
 
-The client uses [code mirror](https://codemirror.net/) for the editor and [THREE.js](https://threejs.org/) for the realtime rendering. We don't use a build script and instead directly reference the source code in node_modules directory. See the `index.html` for how they're included:
+The client uses [code mirror](https://codemirror.net/) for the editor and [THREE.js](https://threejs.org/) for the realtime rendering. We don't use a build script and instead directly reference the source code in client/lib directory. See the `index.html` for how they're included:
   
 ## Plans
 
 - [ ] Make UI look better
-- [ ] Add a save/restore feature, and add a way to view others' saved code
-
