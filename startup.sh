@@ -1,5 +1,9 @@
 cd /home/pi/thundertube
-node server/index.js &
+
+# The aptitude repos didn't have a compatible node so we installed
+# node on this device with nvm, but something weird happens on launch
+# with the PATHS, so we reference directly on the pi
+/home/pi/.nvm/versions/v11.1.0/bin/node server &
 
 # Ensures the server has enough time to start up
 sleep 6
