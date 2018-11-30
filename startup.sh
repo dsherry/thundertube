@@ -1,5 +1,5 @@
 cd /home/pi/thundertube
-node server/index.js
+node server/index.js &
 
 # Ensures the server has enough time to start up
 sleep 6
