@@ -58,6 +58,11 @@ function main() {
 
   function start() {
       let send = function(time) {
+
+        // This is throttling the amount of messages sent by websockets
+        // This is because the raspberry pi network interface isn't fast enough
+        // and when we were sending 60FPS, it was grouping the data and the
+        // hardware didn't know how to handle this and it made it unusable
           if (Math.abs(time - prev_time) < 50) {
             return requestAnimationFrame(send);
           }
@@ -94,6 +99,8 @@ function main() {
       window.requestAnimationFrame(send);
   };
 
+  // This is for the simulator
+  // It's of no import for the Recurse Center Version
   function setupScene() {
     let canvas = document.getElementById("viz");
     let width = canvas.offsetWidth;
@@ -149,11 +156,13 @@ function main() {
     }
   }
 
+  // For The simulator
   function updateLightObject(lightObject, color) {
     lightObject.color = color;
     lightObject.children[0].material.color = color;
   };
 
+  // For The simulator
   function animate() {
   	requestAnimationFrame( animate );
 
