@@ -9,21 +9,46 @@ An application for live-coding some LEDs in the Recurse Center space.
 The application has three components:
  - Javascript client: for sending websocket data for lights
  - A server on a teensy board for handling websocket connection and powering lights
- - A MongoDB server for persisting code
+ - A Node.js server for persisting user code to a MongoDB database
  
 There is an additional branch called `simulator` which has a 3D simulator written in THREE.js that you can access online at `thundertube.now.sh`.
 (Maintained by @strickinato)
 
 It's all run on a raspberry pi on the Recurse LAN. (pi@thundertube.local)
 
-## Get it running
-
+## Run it locally
+_This can be done either on your own machine or on the raspberry pi. Note that if you run it on your own machine, the UI may complain about not being able to connect to the web socket._
+### Option 1: Run with a local database (preferred)
+1. Follow instructions at https://docs.mongodb.com to install MongoDB.
+2. Run the following to start a local MongoDB instance on port `39700`, storing data in `~/data/thunderbird/db`:
 ```
-npm install
-node server/index.js
+$ mkdir -p ~/data/thundertube/db
+$ mongod --port 39700 --dbpath ~/data/thunderbird/db
+```
+3. In this project repository, add the file `server/databaseconfig.js` with the following contents:
+```js
+exports.DatabaseConfig = {PATH: 'mongodb://127.0.0.1:39700'};
+```
+Then follow the instructions below to run the server.
+
+### Option 2: Run with the live database (dangerous)
+_WARNING: If you do this, changes you make (and bugs you introduce) in your local server will reflect on the raspberry pi._
+1. Follow instructions at https://docs.mongodb.com to install MongoDB.
+2. If necessary, copy the `server/databaseconfig.js` file from the raspberry pi to your version of the repository. Ensure that this file is not checked into source control since it contains the username/password of the live database.
+
+Then follow the instructions below to run the server.
+
+### Run the server
+Once the `server/databaseconfig.js` file exists and points to a MongoDB database, you can run the server:
+
+```shell
+$ npm start
+Listening on port 5000...
+Attempting to connect to database at: mongodb://127.0.0.1:39700
+Successfully connected to database.
 ```
 
-Now go to http://localhost:5000
+Then you can access the UI at http://localhost:5000.
 
 # The Client
 
@@ -58,10 +83,12 @@ Now open the Arduino IDE, and select Tools → Board → "Teensy 3.2"
 
 * There are many modes. A button on the side controls what mode we're in. Thundertube expects "websocket control mode"!
 * Try unplugging and plugging back in!
+* Make sure the Node.js server is talking to the database you think it's talking to.
 
-# The saved code server
-
-This is hosted on mongo.
+# The Node.js server
+The server exposes two HTTP POST endpoints:
+- `/loadallcodes` which queries the database for all user codes and returns them as JSON in the response.
+- `/saveallcodes` which receives all user codes as JSON in the request and writes them to the database. The response contains whether the write was successful.
 
 # The Raspberry Pi
 
