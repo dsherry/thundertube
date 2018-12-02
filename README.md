@@ -42,6 +42,7 @@ Then follow the instructions below to run the server.
 Once the `server/databaseconfig.js` file exists and points to a MongoDB database, you can run the server:
 
 ```shell
+$ npm install
 $ npm start
 Listening on port 5000...
 Attempting to connect to database at: mongodb://127.0.0.1:39700
