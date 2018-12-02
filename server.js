@@ -10,7 +10,7 @@ const server = require('http').createServer(app);
 const database = new Database();
 
 app
-    .use(express.static(path.join(__dirname, '../client')))
+    .use(express.static(path.join(__dirname, 'client')))
     .use(bodyParser.json())
     .post(
         '/loadallcodes',
