@@ -2,15 +2,15 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const path = require('path');
 
-const Database = require('./database.js').Database;
-const DatabaseConfig = require('./databaseconfig.js').DatabaseConfig;
+const Database = require('./server/database.js').Database;
+const DatabaseConfig = require('./server/databaseconfig.js').DatabaseConfig;
 
 const app = express();
 const server = require('http').createServer(app);
 const database = new Database();
 
 app
-    .use(express.static(path.join(__dirname, '../client')))
+    .use(express.static(path.join(__dirname, 'client')))
     .use(bodyParser.json())
     .post(
         '/loadallcodes',
